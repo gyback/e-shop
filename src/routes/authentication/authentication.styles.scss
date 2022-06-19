@@ -1,0 +1,23 @@
+.authentication-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5%;
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        width: 380px;
+    
+        h2 {
+            margin: 10px 0;
+        }
+
+        .sign-in-button-container {
+            display: flex;
+            flex-direction: row;
+            gap: 5%;
+            margin: auto 0;
+        }
+    }
+}
