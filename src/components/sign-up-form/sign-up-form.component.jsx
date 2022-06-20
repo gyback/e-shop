@@ -33,7 +33,7 @@ const SignUpForm = () => {
             return;
         };
         try {
-            const userDoc = createAuthUserWithEmailAndPassword(email, password)
+            createAuthUserWithEmailAndPassword(email, password)
             .then((response)=>{
                 createUserDocumentFromAuth(response.user, {displayName})
             })

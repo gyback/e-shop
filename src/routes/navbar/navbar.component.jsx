@@ -1,9 +1,11 @@
-import {Fragment} from 'react';
+import {Fragment, useContext} from 'react';
 import {Outlet, Link, useLocation} from 'react-router-dom';
 
 import categories from '../../assets/cactegories.json'
 import './navbar.styles.scss';
 import {ReactComponent as CrwnLogo} from '../../assets/crown.svg'
+import { UserContext } from '../../context/user.context';
+import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 
 const CategoryLinks = () => {
@@ -22,6 +24,9 @@ const CategoryLinks = () => {
 }
 
 const Navbar = () => {
+    const {currentUser} = useContext(UserContext);
+
+    
     
     return (
         <Fragment>
@@ -32,7 +37,11 @@ const Navbar = () => {
                 {CategoryLinks()}
                 <div className='nav-links-container'>
                     <Link className='nav-link' to='/shop'>SHOP</Link>
-                    <Link className='nav-link' to='/auth'>SIGN IN</Link>
+                    {currentUser ?
+                           <span className='nav-link' onClick={signOutUser}>sign out</span>
+                        :
+                           <Link className='nav-link' to='/auth'>SIGN IN</Link>
+                    }
                 </div>
             </div>
             <Outlet />
