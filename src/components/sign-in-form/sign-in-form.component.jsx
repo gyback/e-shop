@@ -37,8 +37,16 @@ const SignInForm = () => {
                 resetFormFields();
             })
         } catch (error) {
-            // if(error.code)
-            console.error(error);
+            switch(error.code){
+                case 'auth/wrong-password':
+                    alert ('Incorrect password or email')
+                    break;
+                case 'auth/user-not-found':
+                    alert ('Incorrect password or email')
+                    break;
+                default:
+                    console.error(error);
+            }
         }
     }
 
@@ -68,9 +76,9 @@ const SignInForm = () => {
                     name="password"
                     value={password}/>
 
-                <div className='sign-in-button-container'>
+                <div className='authentication-button-container'>
                     <Button type="submit" onClick={handleSubmit}>Sign In</Button>
-                    <Button buttonType={'google'} onClick={signInGoogleUserWithPopup}>Sign in with Google</Button>
+                    <Button type='button' buttonType={'google'} onClick={signInGoogleUserWithPopup}>Sign in with Google</Button>
                 </div>
             </form>     
         </div>

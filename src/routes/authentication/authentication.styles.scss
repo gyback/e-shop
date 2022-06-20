@@ -1,8 +1,9 @@
 .authentication-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    gap: 5%;
+    width: min(85%, 900px);
+    justify-content: space-between;
+    margin: 30px auto;
 
     .form-container {
         display: flex;
@@ -13,7 +14,7 @@
             margin: 10px 0;
         }
 
-        .sign-in-button-container {
+        .authentication-button-container {
             display: flex;
             flex-direction: row;
             gap: 5%;
