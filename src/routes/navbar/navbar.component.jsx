@@ -10,7 +10,6 @@ import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 const CategoryLinks = () => {
     const location = useLocation();
-    console.log(location.pathname);
     if(location.pathname !== '/') return (
         <div className='nav-links-container'>
             {categories.map((category) =>(
