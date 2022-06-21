@@ -3,8 +3,14 @@ import {Outlet, Link, useLocation} from 'react-router-dom';
 
 import categories from '../../assets/cactegories.json'
 import './navbar.styles.scss';
+
+import CartIcon from '../../components/cart-icon/cart-icon.component';  
+import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
+
 import {ReactComponent as CrwnLogo} from '../../assets/crown.svg'
+
 import { UserContext } from '../../context/user.context';
+import { CartContext } from '../../context/cart.context';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 
@@ -24,6 +30,7 @@ const CategoryLinks = () => {
 
 const Navbar = () => {
     const {currentUser} = useContext(UserContext);
+    const {cartVisibility} = useContext(CartContext);
 
     
     
@@ -41,7 +48,9 @@ const Navbar = () => {
                         :
                            <Link className='nav-link' to='/auth'>SIGN IN</Link>
                     }
+                    <CartIcon />
                 </div>
+                {cartVisibility && <CartDropdown /> }
             </div>
             <Outlet />
         </Fragment>
