@@ -5,7 +5,7 @@ import { CartContext } from '../../context/cart.context';
 
 
 const CartIcon = () => {
-    const {cartVisibility, setCartVisibility} = useContext(CartContext)
+    const {cartVisibility, setCartVisibility, cartCount} = useContext(CartContext)
 
     const toggleCartVisibility = () => {
         setCartVisibility(!cartVisibility);
@@ -14,7 +14,7 @@ const CartIcon = () => {
     return(
         <div className='cart-icon-container' onClick={toggleCartVisibility} >
             <ShoppingIcon className='shopping-icon' />
-            <span className='item-count'>0</span>
+            <span className='item-count'>{cartCount}</span>
         </div>
     )
 }
