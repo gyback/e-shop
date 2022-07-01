@@ -19,7 +19,7 @@ const CategoryLinks = () => {
     if(location.pathname !== '/') return (
         <div className='nav-links-container'>
             {categories.map((category) =>(
-                <Link key={category.id} className='nav-link' to={`/${category.title}`}>
+                <Link key={category.id} className='nav-link' to={`/shop/${category.title}`}>
                     {category.title.toLocaleUpperCase()}
                 </Link>
             ))}    
