@@ -10,7 +10,7 @@ const Category = () => {
 
     return (
         <div className="category-container">
-            <h2 className="title">{categoryName}</h2>
+            <h2 className="title center">{categoryName}</h2>
             <div className="products-container">
                 {categoriesMap[categoryName].map((product) => {
                     return (
