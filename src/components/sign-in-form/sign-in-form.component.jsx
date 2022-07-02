@@ -5,7 +5,7 @@ import {
 } from '../../utils/firebase/firebase.utils.js';
 
 
-import Button from "../button/button.component"
+import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component"
 import FormInput from '../form-input/form-input.component.jsx';
 
 
@@ -76,8 +76,15 @@ const SignInForm = () => {
                     value={password}/>
 
                 <div className='authentication-button-container'>
-                    <Button type="submit" onClick={handleSubmit}>Sign In</Button>
-                    <Button type='button' buttonType={'google'} onClick={signInGoogleUserWithPopup}>Google Sign in</Button>
+                    <Button
+                        type="submit"
+                        onClick={handleSubmit}
+                        >Sign In</Button>
+                    <Button
+                        type='button'
+                        buttonType={BUTTON_TYPE_CLASSES.google}
+                        onClick={signInGoogleUserWithPopup}
+                        >Google Sign in</Button>
                 </div>
             </form>     
         </div>

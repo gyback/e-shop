@@ -1,24 +1,24 @@
-import { Link } from "react-router-dom";
+import { CategoryContainer, ProductsContainer, Title } from "../../routes/shop/shop.styles";
 import ProductCard from "../product-card/product-card.component";
 
 const CategoryPreview = ({title, products}) => {
 
     return (
-        <div className="category-container">         
+        <CategoryContainer>         
             <h2>
-                <Link to={title} className="title" >
+                <Title to={title} >
                     {title}
-                </Link>
+                </Title>
             </h2>
-            <div className="products-container">
+            <ProductsContainer>
                 {products.slice(0,4).map((product) => {
                     return (
                         <ProductCard key={product.id} product={product} />
                     )
                 })}
-            </div>
+            </ProductsContainer>
         
-        </div>
+        </CategoryContainer>
     )
 }
 
