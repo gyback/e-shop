@@ -8,38 +8,37 @@ import { CartDropdownContainer, CartItemContainer, EmptyMessage } from './cart-d
  
 
 const CartDropdown = () => {
-    const {cartContent, cartVisibility, setCartVisibility} = useContext(CartContext);
+    const {cartContent, toggleCartVisibility} = useContext(CartContext);
     const navigate = useNavigate();
-    const toggleCartVisibility = () => {
-        setCartVisibility(!cartVisibility);
-    }
+    
 
     const handleCheckoutClick = () => {
         toggleCartVisibility();
         navigate('/checkout');
     }
 
-    const useOutsideClick = (ref) => {
-        useEffect(() => {
+    // const useOutsideClick = (ref) => {
+    //     useEffect(() => {
 
-            const handleOutsideClick = (event) => {
-                if (ref.current && !ref.current.contains(event.target)) {
-                    toggleCartVisibility();
-                }
-            }
+    //         const handleOutsideClick = (event) => {
+    //             if (ref.current && !ref.current.contains(event.target)) {
+    //                 toggleCartVisibility();
+    //             }
+    //         }
 
-            document.addEventListener("mousedown", handleOutsideClick);
-            return () => {
-                document.removeEventListener("mousedown", handleOutsideClick);
-            }
-        }, [ref])
-    }
+    //         document.addEventListener("mousedown", handleOutsideClick);
+    //         return () => {
+    //             document.removeEventListener("mousedown", handleOutsideClick);
+    //         }
+    //     }, [ref])
+    // }
 
-    const dropdownRef = useRef(null);
-    useOutsideClick(dropdownRef);
+    // const dropdownRef = useRef(null);
+    // useOutsideClick(dropdownRef);
     
     return (
-        <CartDropdownContainer ref={dropdownRef} >
+        <CartDropdownContainer  >
+            {/*ref={dropdownRef}*/}
             <CartItemContainer >
                 {(cartContent && cartContent.length) ? cartContent.map((item) => (
                     <CartItem key={item.id} cartItem={item} />

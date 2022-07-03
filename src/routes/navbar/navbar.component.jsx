@@ -51,7 +51,7 @@ const Navbar = () => {
                     }
                     <CartIcon />
                 </NavLinksContainer>
-                {cartVisibility && <CartDropdown /> }
+                {/* {cartVisibility && <CartDropdown /> } */}
             </NavigationContainer>
             <Outlet />
         </Fragment>
