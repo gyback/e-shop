@@ -13,7 +13,7 @@ const Category = () => {
         <CategoryContainer >
             <Title as='h2' >{categoryName}</Title>
             <ProductsContainer >
-                {categoriesMap[categoryName].map((product) => {
+                {categoriesMap[categoryName] && categoriesMap[categoryName].map((product) => {
                     return (
                         <ProductCard key={product.id} product={product} />
                     )
