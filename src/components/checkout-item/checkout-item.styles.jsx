@@ -19,20 +19,26 @@ export const ImageContainer = styled.div`
     height: 100%;
   }
 `
-
-export const Price = styled.div`
+export const NameBlock = styled.span`
   width: 23%;
 `
 
 export const QuantityContainer = styled.div`
   display: flex;
+  width: 23%;
 `
 
-export const Value = styled.span`
+export const ValueBlock = styled.span`
   margin: 0 10px;
 `
 
+
+export const PriceBlock = styled.span`
+  width: 23%;
+`
+
 export const RemoveButton = styled.span`
-  padding-left: 12px;
+  /* padding-left: 12px; */
+  width: 8%;
   cursor: pointer;
 `

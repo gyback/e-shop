@@ -1,10 +1,10 @@
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { Fragment, useContext } from 'react';
 import Button from '../../components/button/button.component';
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
 import { CartContext } from '../../context/cart.context';
 import { useNavigate } from 'react-router';
+import { CheckoutContainer, CheckoutHeaderContainer, HeaderBlock, TotalContainer } from './checkout.styles';
 
-import './checkout.styles.scss';
 
 const Checkout = () => {
     const {cartContent, cartCount, cartTotal} = useContext(CartContext);
@@ -16,25 +16,25 @@ const Checkout = () => {
     
 
     return (
-        <div className="checkout-container">
+        <CheckoutContainer>
                     
             {cartCount 
             ? (
                 <Fragment>
-                    <div className="checkout-header" >
-                        <span>Product</span>
-                        <span>Description</span>
-                        <span>Quantity</span>
-                        <span>Price</span>
-                        <span>Remove</span>
-                    </div>
+                    <CheckoutHeaderContainer >
+                        <HeaderBlock>Product</HeaderBlock>
+                        <HeaderBlock>Description</HeaderBlock>
+                        <HeaderBlock>Quantity</HeaderBlock>
+                        <HeaderBlock>Price</HeaderBlock>
+                        <HeaderBlock>Remove</HeaderBlock>
+                    </CheckoutHeaderContainer>
 
                     {cartContent.map((item) => <CheckoutItem key={item.id} item={item} />)}
-                    <div className='total'>
+                    <TotalContainer >
                         <span >
                             Total: ${cartTotal}
                         </span>
-                    </div>
+                    </TotalContainer>
                     <Button >place order</Button>
 
                 </Fragment>
@@ -47,7 +47,7 @@ const Checkout = () => {
 
             }
 
-        </div>
+        </CheckoutContainer>
     );
 }
 
