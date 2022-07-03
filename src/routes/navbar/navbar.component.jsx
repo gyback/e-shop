@@ -5,12 +5,10 @@ import categories from '../../assets/cactegories.json'
 import {LogoContainer, NavigationContainer, NavLinksContainer, NavLink} from './navbar.styles';
 
 import CartIcon from '../../components/cart-icon/cart-icon.component';  
-import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
 
 import {ReactComponent as CrwnLogo} from '../../assets/crown.svg'
 
 import { UserContext } from '../../context/user.context';
-import { CartContext } from '../../context/cart.context';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 
@@ -31,7 +29,6 @@ const CategoryLinks = () => {
 
 const Navbar = () => {
     const {currentUser} = useContext(UserContext);
-    const {cartVisibility} = useContext(CartContext);
 
     
     

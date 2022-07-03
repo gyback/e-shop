@@ -5,14 +5,14 @@ import { CartIconContainer, ItemCount, ShoppingIcon } from './cart-icon.styles';
 
 
 const CartIcon = () => {
-    const { cartVisibility, toggleCartVisibility, hideCart, cartCount} = useContext(CartContext)
+    const { cartVisibility, cartCount, toggleCartVisibility, setCartVisibility} = useContext(CartContext)
 
     const useOutsideClick = (ref) => {
         useEffect(() => {
 
             const handleOutsideClick = (event) => {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    hideCart();
+                    setCartVisibility(false);
                 }
             }
 
