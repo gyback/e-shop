@@ -16,7 +16,6 @@ const Checkout = () => {
         navigate('/shop');
     }
 
-    console.log(cartContent)
     
 
     return (
