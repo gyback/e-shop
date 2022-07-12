@@ -33,7 +33,7 @@ const updateCartContent = (cartContent) => cartSlice.actions.setCart(cartContent
 export const addItemToCart = (productToAdd, cartContent) => {
     
 
-    if (cartContent.length == 0){
+    if (cartContent.length === 0){
         const newProduct = {quantity: 1, ...productToAdd};
        
         return updateCartContent({
@@ -79,9 +79,7 @@ export const removeItemFromCart = (productToRemove, cartContent) => {
                 (item) => item.id !== productToRemove.id),
             
         })
-        
-        return
-        
+                
     }
     
     return updateCartContent({
