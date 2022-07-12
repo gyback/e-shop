@@ -1,25 +1,29 @@
-import { useContext } from "react";
-import { CartContext } from "../../context/cart.context";
+import { useSelector, useDispatch } from "react-redux";
+
+import { selectCartContent } from "../../store/cart/cart.selector";
+import { addItemToCart, removeItemFromCart, removeItemTypeFromCart } from "../../store/cart/cart.slice";
 import './checkout-item.styles.jsx'
 import { CheckoutItemContainer, ImageContainer, PriceBlock, QuantityContainer, ValueBlock, RemoveButton, NameBlock } from "./checkout-item.styles.jsx";
 
 
 const CheckoutItem = ({item}) => {
-    const {addItemToCart, removeItemFromCart, removeItemTypeFromCart} = useContext(CartContext);
+    const dispatch = useDispatch();
     const {name, quantity, price, imageUrl} = item;
+    const cartContent = useSelector(selectCartContent);
+
 
     const addItem = (() => {
-        addItemToCart(item);
+        dispatch(addItemToCart(item, cartContent));
     });
 
     const removeItem = (() => {
         quantity === 1
-        ? (window.confirm("Do you really want to remove the this product?")) && removeItemFromCart(item)
-        : removeItemFromCart(item)
+        ? (window.confirm("Do you really want to remove the this product?")) && dispatch(removeItemFromCart(item, cartContent))
+        : dispatch(removeItemFromCart(item, cartContent))
     });
 
     const removeItemType = (() => {
-        removeItemTypeFromCart(item);
+        dispatch(removeItemTypeFromCart(item, cartContent));
     })
 
     return(
