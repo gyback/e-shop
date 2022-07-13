@@ -10,6 +10,7 @@ import {
     REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
+import thunk from 'redux-thunk';
 
 import logger from 'redux-logger'
 import { rootReducer } from './root-reducer';
@@ -18,7 +19,7 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    blacklist: ['user']
+    blacklist: ['user', 'categories']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

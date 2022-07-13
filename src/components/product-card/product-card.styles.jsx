@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const ProductCardContainer = styled.div`
-width: 100%;
+  width: 191px;
   display: flex;
   flex-direction: column;
-  height: 350px;
+  height: 328px;
   align-items: center;
   position: relative;
 
