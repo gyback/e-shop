@@ -1,20 +1,38 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './user/user.slice';
-import categoriesReducer from './categories/categories.slice';
-import cartReducer from './cart/cart.slice';
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+} from 'redux-persist'
+import storage from 'redux-persist/lib/storage';
+
 import logger from 'redux-logger'
+import { rootReducer } from './root-reducer';
+
+const persistConfig = {
+    key: 'root',
+    version: 1,
+    storage,
+    blacklist: ['user']
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: {
-        user: userReducer,
-        categories: categoriesReducer,
-        cart: cartReducer
-    },
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {
-            ignoredActions: ["user/setCurrentUser"],
+            ignoredActions: ["user/setCurrentUser", FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             ignoredPaths: ['user.currentUser']
         }
-    }).concat(logger)
+    })
+    .concat(process.env.NODE_ENV !== 'production' && logger)
+    .filter(Boolean)
 })
 
+export const persistor = persistStore(store);
