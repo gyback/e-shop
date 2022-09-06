@@ -10,9 +10,11 @@ import {
     REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
-import thunk from 'redux-thunk';
-
 import logger from 'redux-logger'
+import createSagaMiddleware from '@redux-saga/core';
+
+import { rootSaga } from './root-saga';
+
 import { rootReducer } from './root-reducer';
 
 const persistConfig = {
@@ -21,6 +23,8 @@ const persistConfig = {
     storage,
     blacklist: ['user', 'categories']
 }
+
+const sagaMiddleware = createSagaMiddleware();
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -32,8 +36,13 @@ export const store = configureStore({
             ignoredPaths: ['user.currentUser']
         }
     })
+    .concat(sagaMiddleware)
     .concat(process.env.NODE_ENV !== 'production' && logger)
     .filter(Boolean)
 })
+
+sagaMiddleware.run(rootSaga);
+
+
 
 export const persistor = persistStore(store);
