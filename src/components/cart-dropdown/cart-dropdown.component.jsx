@@ -1,45 +1,30 @@
 import Button from '../button/button.component';
 import CartItem from '../cart-item/cart-item.component';
-import { useContext, useEffect, useRef } from 'react';
-import { CartContext } from '../../context/cart.context';
+import { setCartVisibility } from '../../store/cart/cart.slice';
+import { selectCartContent, selectCartVisibility } from '../../store/cart/cart.selector';
+
+import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { useNavigate } from 'react-router-dom';
 import { CartDropdownContainer, CartItemContainer, EmptyMessage } from './cart-dropdown.styles.jsx';
 
  
 
 const CartDropdown = () => {
-    const {cartContent, cartVisibility, setCartVisibility} = useContext(CartContext);
+    const dispatch = useDispatch();
+    const cartContent = useSelector(selectCartContent);
+    const cartVisibility = useSelector(selectCartVisibility);
     const navigate = useNavigate();
-    const toggleCartVisibility = () => {
-        setCartVisibility(!cartVisibility);
-    }
+    
 
     const handleCheckoutClick = () => {
-        toggleCartVisibility();
+        dispatch(setCartVisibility(!cartVisibility));
         navigate('/checkout');
     }
 
-    const useOutsideClick = (ref) => {
-        useEffect(() => {
-
-            const handleOutsideClick = (event) => {
-                if (ref.current && !ref.current.contains(event.target)) {
-                    toggleCartVisibility();
-                }
-            }
-
-            document.addEventListener("mousedown", handleOutsideClick);
-            return () => {
-                document.removeEventListener("mousedown", handleOutsideClick);
-            }
-        }, [ref])
-    }
-
-    const dropdownRef = useRef(null);
-    useOutsideClick(dropdownRef);
+    
     
     return (
-        <CartDropdownContainer ref={dropdownRef} >
+        <CartDropdownContainer  >
             <CartItemContainer >
                 {(cartContent && cartContent.length) ? cartContent.map((item) => (
                     <CartItem key={item.id} cartItem={item} />

@@ -1,17 +1,15 @@
-import {Fragment, useContext} from 'react';
+import {Fragment} from 'react';
 import {Outlet, useLocation} from 'react-router-dom';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
 
 import categories from '../../assets/cactegories.json'
 import {LogoContainer, NavigationContainer, NavLinksContainer, NavLink} from './navbar.styles';
 
 import CartIcon from '../../components/cart-icon/cart-icon.component';  
-import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
-
 import {ReactComponent as CrwnLogo} from '../../assets/crown.svg'
 
-import { UserContext } from '../../context/user.context';
-import { CartContext } from '../../context/cart.context';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
+import { selectCurrentUser } from '../../store/user/user.selector';
 
 
 
@@ -30,10 +28,8 @@ const CategoryLinks = () => {
 }
 
 const Navbar = () => {
-    const {currentUser} = useContext(UserContext);
-    const {cartVisibility} = useContext(CartContext);
 
-    
+    const currentUser = useSelector(selectCurrentUser)
     
     return (
         <Fragment>
@@ -51,7 +47,6 @@ const Navbar = () => {
                     }
                     <CartIcon />
                 </NavLinksContainer>
-                {cartVisibility && <CartDropdown /> }
             </NavigationContainer>
             <Outlet />
         </Fragment>

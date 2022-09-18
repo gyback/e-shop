@@ -29,6 +29,6 @@ export const NavLinksContainer = styled.div`
 
 export const NavLink = styled(Link)`
   text-transform: uppercase;
-  padding: 10px 15px;
+  padding: 10px max(15px, 4vw);
   cursor: pointer;
 `
