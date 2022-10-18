@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ItemType } from "../categories/categories.types";
+import { CartItemType, CartStateType } from "./cart.types";
+
+
+const initialState: CartStateType =  {
+    cartContent: [],
+    cartVisibility: false,
+}
 
 const cartSlice = createSlice({
     name: 'cart',
-    initialState: {
-        cartContent: [],
-        
-        cartVisibility: false,
-    },
+    initialState,
     reducers:{
         setCart: (state, action) => {
             return {
@@ -26,18 +30,18 @@ const cartSlice = createSlice({
 
 
 
-const updateCartContent = (cartContent) => cartSlice.actions.setCart(cartContent);    
+const updateCartContent = (cartContent: CartStateType) => cartSlice.actions.setCart(cartContent);    
 
 
 
-export const addItemToCart = (productToAdd, cartContent) => {
+export const addItemToCart = (productToAdd: ItemType, cartContent: CartItemType[]) => {
     
 
     if (cartContent.length === 0){
-        const newProduct = {quantity: 1, ...productToAdd};
+        const newProduct: CartItemType = {quantity: 1, ...productToAdd} ;
        
         return updateCartContent({
-            cartContent:[ newProduct ],
+            cartContent: [newProduct] ,
             
         })
         
@@ -66,13 +70,13 @@ export const addItemToCart = (productToAdd, cartContent) => {
     
 }
 
-export const removeItemFromCart = (productToRemove, cartContent) => {
+export const removeItemFromCart = (productToRemove: ItemType, cartContent:CartItemType[]) => {
 
-    const existingItem = cartContent.find(
+    const existingItem: CartItemType | undefined = cartContent.find(
         (item) => item.id === productToRemove.id
     );
 
-    if(existingItem.quantity === 1){
+    if(existingItem && existingItem.quantity === 1){
        
         return updateCartContent({
             cartContent: cartContent.filter(
@@ -91,7 +95,7 @@ export const removeItemFromCart = (productToRemove, cartContent) => {
     })
 }
 
-export const removeItemTypeFromCart = (productToRemove, cartContent) => {
+export const removeItemTypeFromCart = (productToRemove:ItemType, cartContent: CartItemType[]) => {
         
     return updateCartContent({
         cartContent: cartContent.filter((item) =>
@@ -100,6 +104,6 @@ export const removeItemTypeFromCart = (productToRemove, cartContent) => {
     })
 }
 
-export const setCartVisibility = (value) => cartSlice.actions.setVisibility(value);
+export const setCartVisibility = (value:boolean) => cartSlice.actions.setVisibility(value);
 
 export default cartSlice.reducer;

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import {
     signInAuthWithEmailAndPassword,
     signInWithGooglePopup
-} from '../../../utils/firebase/firebase.utils.js';
+} from '../../../utils/firebase/firebase.utils';
 
 
 import Button, {BUTTON_TYPE_CLASSES} from "../../button/button.component"

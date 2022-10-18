@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { UserState } from "./user.types";
+
+const initialState: UserState =   {
+    currentUser: {}
+}
 
 const userSlice = createSlice({
     name: 'user',
-    initialState:  {
-        currentUser: {}
-    },
+    initialState,
     reducers: {
         setCurrentUser: (state, action) => {
             return {

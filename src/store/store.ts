@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, Middleware } from '@reduxjs/toolkit';
 import {
     persistStore,
     persistReducer,
@@ -8,21 +8,28 @@ import {
     PERSIST,
     PURGE,
     REGISTER,
+    PersistConfig,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
-import thunk from 'redux-thunk';
 
-import logger from 'redux-logger'
+import logger from 'redux-logger';
 import { rootReducer } from './root-reducer';
 
-const persistConfig = {
+export type RootStateType = ReturnType<typeof rootReducer>
+
+type ExtentedPersistConfig  = PersistConfig<RootStateType> & {
+    whitelist: (keyof RootStateType)[]
+}
+
+const persistConfig: ExtentedPersistConfig = {
     key: 'root',
     version: 1,
     storage,
-    blacklist: ['user', 'categories']
+    whitelist: ['cart']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 
 export const store = configureStore({
     reducer: persistedReducer,
@@ -32,8 +39,11 @@ export const store = configureStore({
             ignoredPaths: ['user.currentUser']
         }
     })
-    .concat(process.env.NODE_ENV !== 'production' && logger)
-    .filter(Boolean)
+    .concat(
+        [process.env.NODE_ENV !== 'production' && logger]
+        .filter((middleware): middleware is Middleware => Boolean(middleware))
+    )
+    
 })
 
 export const persistor = persistStore(store);
