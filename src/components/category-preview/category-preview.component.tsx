@@ -1,7 +1,8 @@
 import { CategoryContainer, ProductsContainer, Title } from "../../routes/shop/shop.styles";
 import ProductCard from "../product-card/product-card.component";
+import { CategoryType } from "../../store/categories/categories.types";
 
-const CategoryPreview = ({title, products}) => {
+const CategoryPreview = ({title, items}:CategoryType) => {
 
     return (
         <CategoryContainer>         
@@ -11,9 +12,9 @@ const CategoryPreview = ({title, products}) => {
                 </Title>
             </h2>
             <ProductsContainer>
-                {products.slice(0,4).map((product) => {
+                {items.slice(0,4).map((items) => {
                     return (
-                        <ProductCard key={product.id} product={product} />
+                        <ProductCard key={items.id} product={items} />
                     )
                 })}
             </ProductsContainer>

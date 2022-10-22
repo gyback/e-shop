@@ -2,9 +2,14 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { addItemToCart, removeItemFromCart, removeItemTypeFromCart} from '../../store/cart/cart.slice'
 import { selectCartContent } from '../../store/cart/cart.selector';
-import { AddRemoveButton, ButtonsContainer, CartItemContainer, ItemDetails, Name } from './cart-item.styles.jsx';
+import { AddRemoveButton, ButtonsContainer, CartItemContainer, ItemDetails, Name } from './cart-item.styles';
+import { CartItemType } from '../../store/cart/cart.types';
 
-const CartItem = ({cartItem}) => {
+type CartItemProps = {
+    cartItem:CartItemType
+}
+
+const CartItem = ({cartItem}:CartItemProps) => {
     const dispatch = useDispatch();
 
     const {name, imageUrl, price, quantity} = cartItem;
@@ -17,7 +22,7 @@ const CartItem = ({cartItem}) => {
     const removeItem = (() => {
         quantity === 1
         ? (window.confirm("Do you really want to remove the this product?")) && dispatch(removeItemFromCart(cartItem, cartContent))
-        : dispatch(removeItemFromCart(cartItem))
+        : dispatch(removeItemFromCart(cartItem, cartContent))
     });
 
     const removeItemType = (() => {

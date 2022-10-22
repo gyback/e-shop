@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { LegacyRef, RefObject, useLayoutEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es';
 
 import { selectCartCount, selectCartVisibility } from '../../store/cart/cart.selector';
@@ -17,14 +17,18 @@ const CartIcon = () => {
     
 
 
-    const useOutsideClick = (ref) => {
-        useEffect(() => {
+    const useOutsideClick = (ref: LegacyRef<HTMLDivElement>) => {
+        useLayoutEffect(() => {
 
             
-            const handleOutsideClick = (event) => {
+            const handleOutsideClick = (event: MouseEvent) => {
                     
-      
-                if (cartVisibility && ref.current && !ref.current.contains(event.target)) {
+                const current = (ref as RefObject<HTMLDivElement>).current;
+                if (
+                    cartVisibility &&
+                    null !== current &&
+                    !current.contains(event.target as HTMLElement)
+                    ) {
                     dispatch(setCartVisibility(false));
                 }
             }
@@ -38,7 +42,7 @@ const CartIcon = () => {
         }, [ref, cartVisibility])
     }
 
-    const dropdownRef = useRef(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     
     useOutsideClick(dropdownRef);
     

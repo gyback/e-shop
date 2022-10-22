@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useSelector } from "react-redux";
 
@@ -7,6 +7,7 @@ import { selectCurrentUser } from '../../store/user/user.selector';
 
 import {BUTTON_TYPE_CLASSES} from "../button/button.component";
 import { FormContainer, PaymentFormContainer, PaymentButton } from "./payment-form.styles";
+import { User } from 'firebase/auth';
 
 const PaymentForm = () => {
     const stripe = useStripe();
@@ -17,13 +18,19 @@ const PaymentForm = () => {
 
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-    const paymentHandler = async (e) => {
+    const paymentHandler = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if(!stripe || !elements) {
+        if(!stripe || !elements || null != elements.getElement(CardElement)) {
             return;
         }
-
+        
+        const cardElement = elements.getElement(CardElement);
+        if (cardElement == null){
+            return
+        }
+        let  name:string | null = (currentUser as User).displayName;
+        
         setIsProcessingPayment(true);
 
         const response = await fetch('/.netlify/functions/create-payment-intent', {
@@ -38,9 +45,9 @@ const PaymentForm = () => {
 
         const paymentResult = await stripe.confirmCardPayment(client_secret, {
             payment_method: {
-                card: elements.getElement(CardElement),
+                card: cardElement,
                 billing_details: {
-                    name: currentUser ? currentUser.displayName : 'Guest',
+                    name: name ? name : 'Guest',
                 },
             }
         })
@@ -62,7 +69,7 @@ const PaymentForm = () => {
             <FormContainer onSubmit={paymentHandler}>
                 <h2>Credit Card Payment: </h2>
                 <CardElement />
-                <PaymentButton isLoading={isProcessingPayment} buttonType={BUTTON_TYPE_CLASSES.inverted}>Pay Now</PaymentButton>
+                <PaymentButton isLoading={isProcessingPayment} buttonType={BUTTON_TYPE_CLASSES.INVERTED}>Pay Now</PaymentButton>
             </FormContainer>
         </PaymentFormContainer>
     )

@@ -1,4 +1,4 @@
-import {Routes, Route} from 'react-router-dom';
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider, Routes} from 'react-router-dom';
 import { useEffect } from 'react';
 import { createUserDocumentFromAuth, OnAuthStateChangeListener } from './utils/firebase/firebase.utils';
 import { useDispatch } from 'react-redux/es/exports';
@@ -25,7 +25,7 @@ const App = () => {
     return unsubscribe;
   }, []);
 
-  
+ 
 
   return (
     <Routes>
@@ -36,7 +36,7 @@ const App = () => {
         <Route path='shop/*' element={<Shop/>} />
 
       </Route>
-    </Routes> 
+    </Routes>
   );
 }
 

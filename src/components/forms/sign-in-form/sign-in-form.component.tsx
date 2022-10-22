@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { AuthError, AuthErrorCodes } from 'firebase/auth';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom'
 import {
     signInAuthWithEmailAndPassword,
@@ -7,8 +8,8 @@ import {
 
 
 import Button, {BUTTON_TYPE_CLASSES} from "../../button/button.component"
-import FormInput from '../../form-input/form-input.component.jsx';
-import { AuthenticationButtonContainer, FormContainer } from '../form.styles.jsx';
+import FormInput from '../../form-input/form-input.component';
+import { AuthenticationButtonContainer, FormContainer } from '../form.styles';
 
 
 const defaultFormFields = {
@@ -22,7 +23,7 @@ const SignInForm = () => {
     const {email, password} = formFields;
 
 
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         setFormFields({...formFields, [name]: value});
     }
@@ -31,7 +32,7 @@ const SignInForm = () => {
         setFormFields(defaultFormFields);
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
             signInAuthWithEmailAndPassword(email, password)
@@ -39,11 +40,11 @@ const SignInForm = () => {
                 resetFormFields();
             })
         } catch (error) {
-            switch(error.code){
-                case 'auth/wrong-password':
+            switch((error as AuthError).code){
+                case AuthErrorCodes.INVALID_PASSWORD:
                     alert ('Incorrect password or email')
                     break;
-                case 'auth/user-not-found':
+                case AuthErrorCodes.INVALID_EMAIL:
                     alert ('Incorrect password or email')
                     break;
                 default:
@@ -66,7 +67,7 @@ const SignInForm = () => {
         <FormContainer>
             <h2>I already have an account</h2>
             <span>Sign in with your email and password</span>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <FormInput
                         label='Email'
                         required
@@ -84,13 +85,10 @@ const SignInForm = () => {
                     value={password}/>
 
                 <AuthenticationButtonContainer className='authentication-button-container'>
-                    <Button
-                        type="submit"
-                        onClick={handleSubmit}
-                        >Sign In</Button>
+                    <Button type="submit">Sign In</Button>
                     <Button
                         type='button'
-                        buttonType={BUTTON_TYPE_CLASSES.google}
+                        buttonType={BUTTON_TYPE_CLASSES.GOOGLE}
                         onClick={signInGoogleUserWithPopup}
                         >Google Sign in</Button>
                 </AuthenticationButtonContainer>

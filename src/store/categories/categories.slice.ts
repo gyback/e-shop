@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 import { getCategoriesAndDocuments } from "../../utils/firebase/firebase.utils";
+import { store } from "../store";
 import { CategoryStateType } from "./categories.types";
 
 
@@ -9,9 +11,13 @@ const initialState: CategoryStateType = {
     error: null
 }
 
+export type FetchCategoriesDispatch = typeof store.dispatch;
+
+export const useFetchCategoriesDispatch = () => useDispatch<FetchCategoriesDispatch>()
+
 export const fetchCategories = createAsyncThunk(
     'categories/fetchCategoriesStatus',
-    async (thunkAPI) => {
+    async (_, thunkAPI) => {
         const response = await getCategoriesAndDocuments();
         return response;
     }

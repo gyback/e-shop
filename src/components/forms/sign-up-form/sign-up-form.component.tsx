@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { AuthError, AuthErrorCodes } from "firebase/auth";
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../../utils/firebase/firebase.utils";
 import Button from "../../button/button.component";
 import FormInput from "../../form-input/form-input.component";
@@ -17,7 +18,7 @@ const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {displayName, email, password, confirmPassword} = formFields;
 
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         setFormFields({...formFields, [name]: value});
     }
@@ -26,7 +27,7 @@ const SignUpForm = () => {
         setFormFields(defaultFormFields);
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (password !== confirmPassword) {
@@ -36,14 +37,14 @@ const SignUpForm = () => {
         try {
             createAuthUserWithEmailAndPassword(email, password)
             .then((response)=>{
-                createUserDocumentFromAuth(response.user, {displayName})
+                response && createUserDocumentFromAuth(response.user, {displayName})
             })
             .then(()=>{
                 resetFormFields()
             });
             
         } catch (error) {
-            if(error.code === "auth/email-already-in-use"){
+            if((error as AuthError).code === AuthErrorCodes.EMAIL_EXISTS){
                 alert('Cannot create user. Email already in use.')
             }
             console.error(error);
@@ -54,7 +55,7 @@ const SignUpForm = () => {
         <FormContainer >
         <h2>I do not have an account</h2>
             <span>Sign up with your email and password</span>
-            <form>
+            <form onSubmit={(e) => handleSubmit}>
                 <FormInput
                     label = "Display Name"
                     required
@@ -88,7 +89,7 @@ const SignUpForm = () => {
                     name="confirmPassword"
                     value={confirmPassword}/>
 
-                <Button type="submit" onClick={handleSubmit}>Sign Up</Button>
+                <Button type="submit">Sign Up</Button>
             </form>
         </FormContainer>
     )

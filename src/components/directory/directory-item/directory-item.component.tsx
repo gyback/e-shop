@@ -1,5 +1,12 @@
-import { BackgroundImage, DirecoryBody, DirectoryItemContainer } from "./directory-item.styles.jsx";
-const DirectoryItem = ({category:{title, imageUrl}}) => {
+import { BackgroundImage, DirecoryBody, DirectoryItemContainer } from "./directory-item.styles";
+import {DirectoryItemType} from "../directory.component";
+
+
+type DirectoryItemProps = {
+    category: DirectoryItemType
+}
+
+const DirectoryItem = ({category:{title, imageUrl}}:DirectoryItemProps) => {
 return (
     <DirectoryItemContainer  to={`/shop/${title.toLowerCase()}`} >
         <BackgroundImage imageUrl={imageUrl}></BackgroundImage>
